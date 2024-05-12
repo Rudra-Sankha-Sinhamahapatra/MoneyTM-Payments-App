@@ -1,9 +1,8 @@
 
 ## Build a basic version of PayTM
 
- # Description
- ## This is a Simple PayTM clone
 
+## Tech stacks
  # Backend
 - Express - HTTP Server
 - mongoose - ODM to connect to MongoDB
@@ -16,3 +15,23 @@
 # Frontend
 - React - Frontend framework
 - Tailwind - Styling framework
+
+# description
+- This project is inspired by Paytm
+- It is  a project where i am successfully implemented transaction logic 
+- User can sign up,sign in and send money
+- Passwords gets hashed before storing it in database
+- Though its not like paytm where we can use upi and other bank services
+
+# clone this repo or download the root folder
+- after this run npm install on  both frontend and backend folder
+- install other dependencies if needed
+- create a . env file and store your MONGO_URL there or you can also run mongo db locally using the docker file 
+- create your own config.js where you have to store your own JWT_SECRET
+- now you can run npm run dev to start the frontend
+- on a different terminal go the backend folder and start your backend server
+- now you can use it 
+- after starting the project head over to the /signup endpoint 
+- create your id and use it 
+
+ 
