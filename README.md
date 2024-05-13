@@ -1,5 +1,5 @@
 
-## Build a basic version of PayTM
+## Inspired by Paytm Payments App
 
 
 ## Tech stacks
