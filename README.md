@@ -1,5 +1,6 @@
 
-# Inspired by Paytm Payments App
+# MoneyTM Payments
+- Inspired By Paytm Payments App
 
 
 ## Tech stacks
