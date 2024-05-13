@@ -34,4 +34,5 @@
 - after starting the project head over to the /signup endpoint 
 - create your id and use it 
 
- 
+ # License
+ [MIT](LICENSE)
