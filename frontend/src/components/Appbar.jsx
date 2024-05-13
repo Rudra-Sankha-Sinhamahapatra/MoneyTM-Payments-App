@@ -3,7 +3,7 @@ export const Appbar = ({letter}) => {
 
     return <div className="shadow h-14 flex justify-between">
         <div className="flex flex-col justify-center h-full ml-4">
-           <span className="text-blue-400 font-bold">PayTM</span> Payments App
+           <span className="text-blue-400 font-bold">MoneyTM</span> Payments App
         </div>
         <div className="flex">
             <div className="flex flex-col justify-center h-full mr-4">
