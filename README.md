@@ -26,10 +26,25 @@
 
 ## clone this repo or download the root folder
 - after this run npm install on  both frontend and backend folder
+<pre style="padding: 16px; background-color: #f5f5f5; border-radius: 5px;">
+<code>npm install</code>
+</pre>
 - install other dependencies if needed
 - create a . env file and store your MONGO_URL there or you can also run mongo db locally using the docker file 
+<pre style="padding: 16px; background-color: #f5f5f5; border-radius: 5px;">
+<code>touch .env</code>
+</pre>
+<pre style="padding: 16px; background-color: #f5f5f5; border-radius: 5px;">
+<code>npm install dotenv</code>
+</pre>
 - create your own config.js where you have to store your own JWT_SECRET
+<pre style="padding: 16px; background-color: #f5f5f5; border-radius: 5px;">
+<code>touch config.js</code>
+</pre>
 - now you can run npm run dev to start the frontend
+<pre style="padding: 16px; background-color: #f5f5f5; border-radius: 5px;">
+<code>npm run dev</code>
+</pre>
 - on a different terminal go the backend folder and start your backend server
 - now you can use it 
 - after starting the project head over to the /signup endpoint 
