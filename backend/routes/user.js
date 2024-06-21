@@ -158,29 +158,32 @@ try{
 
 });
 
-router.get("/bulk",async(req,res)=>{
-    const filter=req.query.filter || "";
+router.get("/bulk", authMiddleware, async (req, res) => {
+    const filter = req.query.filter || "";
+    const currentUserId = req.userId; 
 
-    const users=await User.find({
-        $or:[{
-            firstName:{
-            "$regex":filter
-            }},{
-          lastName:{
-            "$regex":filter
-            }
-        }]
-    });
+    try {
+        const users = await User.find({
+            _id: { $ne: currentUserId }, 
+            $or: [
+                { firstName: { "$regex": filter, "$options": "i" } },
+                { lastName: { "$regex": filter, "$options": "i" } }
+            ]
+        });
 
-    res.json({
-        user:users.map(user=>({
-            username:user.username,
-            firstName:user.firstName,
-            lastName:user.lastName,
-           _id:user._id
-        }))
-    })
-})
+        res.json({
+            users: users.map(user => ({
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                _id: user._id
+            }))
+        });
+    } catch (err) {
+        console.error("Error listing users:", err);
+        res.status(500).json({ message: "Error listing users" });
+    }
+});
 
 router.get('/userinfo', authMiddleware, async (req, res) => {
     try {
@@ -191,7 +194,7 @@ router.get('/userinfo', authMiddleware, async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
-n
+
         res.json({
             firstName: user.firstName
         });
