@@ -76,48 +76,33 @@ const signInBody=zod.object({
     password:zod.string()
 })
 
-router.post("/signin",async(req,res)=>{
- 
-    const {data,error}=signInBody.safeParse(req.body);
+router.post("/signin", async (req, res) => {
+    const { username, password } =signInBody.safeParse(req.body);
 
-    if(error){
-        return res.status(411).json({
-            message:"User doesnt exits or Inorrect inputs"
-        })
+    try {
+        const existingUser = await User.findOne({ username });
+
+        if (!existingUser) {
+            return res.status(401).json({ message: "User does not exist or incorrect inputs" });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, existingUser.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ message: "Password isn't correct!" });
+        }
+
+        const token = jwt.sign({ userId: existingUser._id }, JWT_SECRET);
+
+        res.json({
+            message: "User signed in successfully",
+            token: token,
+        });
+    } catch (err) {
+        console.error("Error occurred during signin:", err);
+        res.status(500).json({ message: "Internal server error" });
     }
+});
 
-    try{
-    const existingUser= await User.findOne({
-        username:data.username
-    })
-
-    if(!existingUser){
-        return res.status(401).json({
-            message:"User dosent exits or incorrect inputs"
-        })
-    }
-
-    const passwordMatch=await bcrypt.compare(data.password,existingUser.password);
-    if(!passwordMatch){
-  res.status(401).json({
-    message:"Password isnt correct!"
-  })
-    }
-    const token=jwt.sign({
-        userId:existingUser._id
-    },JWT_SECRET)
-
-    res.json({
-        message:"User signed in Successfully",
-        token:token
-    })}
-    catch(err){
-        console.log(err);
-        res.status(500).json({
-          message:"error occured during signin"
-        })
-    }
-})
 
 const updateBody=zod.object({
     password:zod.string().optional(),
