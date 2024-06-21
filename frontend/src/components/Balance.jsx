@@ -2,7 +2,7 @@
 export const Balance = ({ value }) => {
     const formattedBalance = value.toFixed(2);
     return <div className="flex">
-        <div className="font-bold text-lg">
+        <div className="font-bold text-lg text-blue-400">
             Your balance
         </div>
         <div className="font-semibold ml-4 text-lg">
