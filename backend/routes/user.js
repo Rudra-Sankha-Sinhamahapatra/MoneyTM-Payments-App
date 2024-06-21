@@ -77,10 +77,16 @@ const signInBody=zod.object({
 })
 
 router.post("/signin", async (req, res) => {
-    const { username, password } =signInBody.safeParse(req.body);
+    const { success, data } = signInBody.safeParse(req.body);
+
+    if (!success) {
+        return res.status(400).json({ message: "Invalid inputs" });
+    }
+
+    const { username, password } = data;
 
     try {
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ username: username });
 
         if (!existingUser) {
             return res.status(401).json({ message: "User does not exist or incorrect inputs" });
@@ -102,7 +108,6 @@ router.post("/signin", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
 
 const updateBody=zod.object({
     password:zod.string().optional(),
