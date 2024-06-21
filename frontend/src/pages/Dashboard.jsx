@@ -3,10 +3,12 @@ import axios from "axios";
 import { Appbar } from "../components/Appbar";
 import { Balance } from "../components/Balance";
 import { Users } from "../components/Users";
+import { Name } from "../components/Name";
 
 export const Dashboard = () => {
     const [balance, setBalance] = useState(null);
     const [letter,setLetter]=useState('');
+    const [name,setName]=useState('');
 
     useEffect(() => {
         const fetchLetter = async () => {
@@ -26,6 +28,26 @@ export const Dashboard = () => {
         };
 
         fetchLetter();
+    }, []);
+
+    useEffect(() => {
+        const fetchName = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3000/api/v1/user/userinfo",
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("token")
+                        }
+                    }
+                );
+                setName(response.data.firstName);
+            } catch (error) {
+                console.error("Error fetching balance:", error);
+            }
+        };
+
+        fetchName();
     }, []);
 
     useEffect(() => {
@@ -72,6 +94,7 @@ export const Dashboard = () => {
         <div>
             <Appbar letter={letter}/>
             <div className="m-8">
+                <Name name={name}></Name>
                 {balance !== null && <Balance key={balance} value={balance} />}
                 <Users />
             </div>
