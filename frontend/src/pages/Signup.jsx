@@ -12,14 +12,37 @@ export const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/user/signup",
+        {
+          username,
+          firstName,
+          lastName,
+          password,
+        }
+      );
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard");
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Failed to sign up. Please try again.");
+      }
+    }
+  };
 
   return (
     <div className="bg-blue-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
         <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
           <Heading label={"Sign up"} />
-          <SubHeading label={"Enter your infromation to create an account"} />
+          <SubHeading label={"Enter your information to create an account"} />
           <InputBox
             onChange={(e) => {
               setFirstName(e.target.value);
@@ -48,21 +71,12 @@ export const Signup = () => {
             placeholder="micheal123"
             label={"Password"}
           />
+          {errorMessage && (
+            <p className="text-red-500 text-sm pt-2">{errorMessage}</p>
+          )}
           <div className="pt-4">
             <Button
-              onClick={async () => {
-                const response = await axios.post(
-                  "http://localhost:3000/api/v1/user/signup",
-                  {
-                    username,
-                    firstName,
-                    lastName,
-                    password,
-                  }
-                );
-                localStorage.setItem("token", response.data.token);
-                navigate("/dashboard");
-              }}
+              onClick={handleSignup}
               label={"Sign up"}
             />
           </div>

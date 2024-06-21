@@ -8,9 +8,11 @@ export const SendMoney = () => {
   const name = searchParams.get("name");
   const [amount, setAmount] = useState(0);
   const [buttonText, setButtonText] = useState("Initiate Transfer");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleTransfer = () => {
-    setButtonText("Initiating..."); 
+    setButtonText("Initiating...");
+    setErrorMessage(""); // Clear previous error message
 
     axios
       .post(
@@ -26,55 +28,56 @@ export const SendMoney = () => {
         }
       )
       .then(() => {
-        alert("Money Transferred"); 
-        setButtonText("Initiate Transfer"); 
+        alert("Money Transferred");
+        setButtonText("Initiate Transfer");
       })
       .catch((error) => {
-        console.error("Error transferring money:", error);
-        setButtonText("Initiate Transfer"); 
+        console.error("Error transferring money:", error.response);
+
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Error transferring money. Please try again.");
+        }
+        
+        setButtonText("Initiate Transfer");
       });
   };
 
   return (
-    <div className="flex justify-center h-screen bg-gray-100">
-      <div className="h-full flex flex-col justify-center">
-        <div className="border h-min text-card-foreground max-w-md p-4 space-y-8 w-96 bg-white shadow-lg rounded-lg">
-          <div className="flex flex-col space-y-1.5 p-6">
-            <h2 className="text-3xl font-bold text-center">Send Money</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="bg-white shadow-2xl rounded-xl p-8 w-full max-w-lg">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Send Money</h2>
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center">
+            <span className="text-3xl text-white">{name[0].toUpperCase()}</span>
           </div>
-          <div className="p-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                <span className="text-2xl text-white">{name[0].toUpperCase()}</span>
-              </div>
-              <h3 className="text-2xl font-semibold">{name}</h3>
-            </div>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  htmlFor="amount"
-                >
-                  Amount (in Rs)
-                </label>
-                <input
-                  onChange={(e) => {
-                    setAmount(e.target.value);
-                  }}
-                  type="number"
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                  id="amount"
-                  placeholder="Enter amount"
-                />
-              </div>
-              <button
-               onClick={handleTransfer}
-                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
-              >
-                {buttonText}
-              </button>
-            </div>
+          <h3 className="text-2xl font-semibold text-gray-800">{name}</h3>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-600" htmlFor="amount">
+              Amount (in Rs)
+            </label>
+            <input
+              onChange={(e) => {
+                setAmount(e.target.value);
+              }}
+              type="number"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
+              id="amount"
+              placeholder="Enter amount"
+            />
           </div>
+          {errorMessage && (
+            <p className="text-red-500 text-sm">{errorMessage}</p>
+          )}
+          <button
+            onClick={handleTransfer}
+            className="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
+          >
+            {buttonText}
+          </button>
         </div>
       </div>
     </div>
