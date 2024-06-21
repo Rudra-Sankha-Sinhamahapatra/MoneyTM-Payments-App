@@ -7,6 +7,33 @@ export const SendMoney = () => {
   const id = searchParams.get("id");
   const name = searchParams.get("name");
   const [amount, setAmount] = useState(0);
+  const [buttonText, setButtonText] = useState("Initiate Transfer");
+
+  const handleTransfer = () => {
+    setButtonText("Initiating..."); 
+
+    axios
+      .post(
+        "http://localhost:3000/api/v1/account/transfer",
+        {
+          to: id,
+          amount,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      )
+      .then(() => {
+        alert("Money Transferred"); 
+        setButtonText("Initiate Transfer"); 
+      })
+      .catch((error) => {
+        console.error("Error transferring money:", error);
+        setButtonText("Initiate Transfer"); 
+      });
+  };
 
   return (
     <div className="flex justify-center h-screen bg-gray-100">
@@ -26,7 +53,7 @@ export const SendMoney = () => {
               <div className="space-y-2">
                 <label
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  for="amount"
+                  htmlFor="amount"
                 >
                   Amount (in Rs)
                 </label>
@@ -41,24 +68,10 @@ export const SendMoney = () => {
                 />
               </div>
               <button
-                onClick={() => {
-                  axios.post(
-                    "http://localhost:3000/api/v1/account/transfer",
-                    {
-                      to: id,
-                      amount,
-                    },
-                    {
-                      headers: {
-                        Authorization:
-                          "Bearer " + localStorage.getItem("token"),
-                      },
-                    }
-                  );
-                alert('Money Transferred')}}
+               onClick={handleTransfer}
                 className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
               >
-                Initiate Transfer
+                {buttonText}
               </button>
             </div>
           </div>
