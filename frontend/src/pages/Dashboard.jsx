@@ -4,6 +4,7 @@ import { Appbar } from "../components/Appbar";
 import { Balance } from "../components/Balance";
 import { Users } from "../components/Users";
 import { Name } from "../components/Name";
+import { Backend_url } from "../conf";
 
 export const Dashboard = () => {
     const [balance, setBalance] = useState(null);
@@ -13,7 +14,7 @@ export const Dashboard = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/user/userinfo", {
+                const response = await axios.get(`${Backend_url}/api/v1/user/userinfo`, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("token") }
                 });
                 const { firstName } = response.data;
@@ -30,7 +31,7 @@ export const Dashboard = () => {
     useEffect(() => {
         const fetchBalance = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/account/balance", {
+                const response = await axios.get(`${Backend_url}/api/v1/account/balance`, {
                     headers: { Authorization: "Bearer " + localStorage.getItem("token") }
                 });
                 setBalance(response.data.balance);

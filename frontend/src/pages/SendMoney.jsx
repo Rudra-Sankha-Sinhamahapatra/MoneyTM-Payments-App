@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { Backend_url } from "../conf";
 
 export const SendMoney = () => {
   const [searchParams] = useSearchParams();
@@ -16,7 +17,7 @@ export const SendMoney = () => {
 
     axios
       .post(
-        "http://localhost:3000/api/v1/account/transfer",
+        `${Backend_url}/api/v1/account/transfer`,
         {
           to: id,
           amount,

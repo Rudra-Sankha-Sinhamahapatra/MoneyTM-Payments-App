@@ -6,6 +6,7 @@ import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Backend_url } from "../conf";
 
 export const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -18,7 +19,7 @@ export const Signup = () => {
   const handleSignup = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
+        `${Backend_url}/api/v1/user/signup`,
         {
           username,
           firstName,
