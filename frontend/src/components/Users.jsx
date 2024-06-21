@@ -29,40 +29,32 @@ export const Users = () => {
 
     return (
         <>
-            <div className="font-bold mt-6 text-lg">
-                Users
-            </div>
+            <div className="font-bold mt-6 text-lg text-white">Users</div>
             <div className="my-2">
                 <input
                     type="text"
                     placeholder="Search users..."
-                    className="w-full px-2 py-1 border rounded border-slate-200"
+                    className="w-full px-4 py-2 border rounded border-gray-300 text-black"
                     onChange={(e) => setFilter(e.target.value)}
                 />
             </div>
-            <div>
+            <div className="space-y-4">
                 {users.map(user => (
-                    <div key={user._id} className="flex justify-between">
-                        <div className="flex">
-                            <div className="rounded-full h-12 w-12 bg-green-400 flex justify-center mt-1 mr-2 hover:bg-blue-700">
-                                <div className="flex flex-col justify-center h-full text-xl">
-                                    {user.firstName[0]}
-                                </div>
+                    <div key={user._id} className="flex justify-between items-center bg-white bg-opacity-20 p-4 rounded-lg shadow-md">
+                        <div className="flex items-center">
+                            <div className="rounded-full h-12 w-12 bg-green-400 flex items-center justify-center text-xl font-bold text-blue-900 hover:bg-blue-700">
+                                {user.firstName[0]}
                             </div>
-                            <div className="flex flex-col justify-center h-ful">
-                                <div>
-                                    {user.firstName} {user.lastName}
-                                </div>
+                            <div className="ml-4 text-white">
+                                <div>{user.firstName} {user.lastName}</div>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-center h-full">
-                            <button
-                                onClick={() => navigate(`/send?id=${user._id}&name=${user.firstName}`)}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Send Money
-                            </button>
-                        </div>
+                        <button
+                            onClick={() => navigate(`/send?id=${user._id}&name=${user.firstName}`)}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+                        >
+                            Send Money
+                        </button>
                     </div>
                 ))}
             </div>
