@@ -12,7 +12,7 @@ export const SendMoney = () => {
 
   const handleTransfer = () => {
     setButtonText("Initiating...");
-    setErrorMessage(""); // Clear previous error message
+    setErrorMessage(""); 
 
     axios
       .post(
