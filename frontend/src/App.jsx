@@ -14,7 +14,7 @@ function App() {
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-                <Route path="/sendmoney" element={<PrivateRoute><SendMoney /></PrivateRoute>} />
+                <Route path="/send" element={<PrivateRoute><SendMoney /></PrivateRoute>} />
             </Routes>
         </Router>
     );
