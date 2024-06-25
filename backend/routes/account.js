@@ -33,8 +33,14 @@ router.post("/transfer", authMiddleware, async (req, res) => {
 
     try {
         const { amount, to } = req.body;
-
-       
+      
+        if(amount<0){
+            await session.abortTransaction();
+            return res.status(422).json({
+                message:"Cannot transfer negative amount"
+            })
+        }
+     
         const account = await Account.findOne({ userId: req.userId }).session(session);
 
         if (!account || account.balance < amount) {
@@ -66,7 +72,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         await session.abortTransaction();
         console.error("Error during transfer:", error);
         res.status(500).json({
-            message: "Internal server error"
+            message: `Internal server error or Cannot transfer an alphaneumeric value ,please type a number`
         });
     } finally {
         session.endSession();
