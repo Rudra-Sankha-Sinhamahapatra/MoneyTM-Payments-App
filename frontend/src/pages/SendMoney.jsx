@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { Backend_url } from "../conf";
@@ -10,6 +10,7 @@ export const SendMoney = () => {
   const [amount, setAmount] = useState(0);
   const [buttonText, setButtonText] = useState("Initiate Transfer");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate=useNavigate();
 
   const handleTransfer = () => {
     setButtonText("Initiating...");
@@ -31,6 +32,7 @@ export const SendMoney = () => {
       .then(() => {
         alert("Money Transferred");
         setButtonText("Initiate Transfer");
+        navigate(`/dashboard`)
       })
       .catch((error) => {
         console.error("Error transferring money:", error.response);
